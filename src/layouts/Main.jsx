@@ -3,9 +3,9 @@ import Header from "../common/Header";
 
 export default function Main(){
     return (
-        <>
+        <div>
           <Header />
           <Outlet />
-        </>
+        </div>
     );
 }
