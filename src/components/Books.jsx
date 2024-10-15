@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Book from "./Book";
+import ImageLoader from "./loader/ImageLoader";
 
 export default function Books() {
   const [books, setBooks] = useState([]);
@@ -25,7 +26,18 @@ export default function Books() {
   }, []);
 
   let content;
-  if (isLoading) content = <div>Loading...</div>
+  if (isLoading) {
+    content = <>
+      <ImageLoader />
+      <ImageLoader />
+      <ImageLoader />
+      <ImageLoader />
+      <ImageLoader />
+      <ImageLoader />
+      <ImageLoader />
+      <ImageLoader />
+    </>
+  }
   if (!isLoading && books.length === 0) content = <div>No Product Found</div>
   if (!isLoading && books.length > 0) {
     content = books.map((book) => <Book key={book.id} book={book} />)
