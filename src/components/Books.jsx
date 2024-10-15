@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Book from "./Book";
 import ImageLoader from "./loader/ImageLoader";
 
-export default function Books() {
+export default function Books({searchData}) {
   const [books, setBooks] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
@@ -12,7 +12,7 @@ export default function Books() {
     const fetchBooks = async () => {
       try {
         setIsLoading(true)
-        const response = await axios.get(`https://gutendex.com/books/?page=${ page }`);
+        const response = await axios.get(`https://gutendex.com/books/?page=${ page }${searchData ? `&search=${searchData}`: ''}`);
         console.log('response', response.data.results);
         setBooks(response.data.results);
         setIsLoading(false)
@@ -23,7 +23,7 @@ export default function Books() {
     };
 
     fetchBooks();
-  }, []);
+  }, [page,searchData]);
 
   let content;
   if (isLoading) {

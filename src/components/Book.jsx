@@ -11,7 +11,7 @@ export default function Book({ book }) {
       </div>
       <div className="mt-3">
         <h2 className="text-sm">ID: <span className="font-semibold">{id}</span></h2>
-        <h1 className="text-md my-1">Title: <Link to={`/book/${ id }`}><span className="font-semibold hover:text-blue-950">{title.slice(0,100)}...</span></Link></h1>
+        <h1 className="text-md my-1">Title: <Link to={`/book/${ id }`}><span className="font-semibold hover:text-blue-950">{title.slice(0,30)}...</span></Link></h1>
         <h2 className="text-sm">Author: <span className="font-semibold">{authors?.[0]?.name}</span></h2>
       </div>
     </div>
