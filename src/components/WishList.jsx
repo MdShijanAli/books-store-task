@@ -18,6 +18,8 @@ export default function WishList({ searchData = "" }) {
     return wishList.map(wish => wish.id);
   });
 
+  console.log('Pages', pages);
+
   useEffect(() => {
     const pages = total / books?.length;
     setPages(Math.ceil(pages))
@@ -120,7 +122,7 @@ export default function WishList({ searchData = "" }) {
       </div>
 
       {
-        total > 32 && <div className="my-10">
+        total > 32 && !isLoading && <div className="my-10">
           <Pagination pages={pages} setPage={setPage} page={page} total={total} />
         </div>
       }

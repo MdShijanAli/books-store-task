@@ -13,6 +13,7 @@ export default function Books({ searchData = "" }) {
   const [bookshelves, setBookshelves] = useState([])
   const [topic, setTopic] = useState('')
   console.log('Topic', topic);
+  console.log('Pages', pages);
 
   useEffect(() => {
     const pages = total / books?.length;
@@ -81,11 +82,10 @@ export default function Books({ searchData = "" }) {
       </div>
 
       {
-        total > 32 && <div className="my-10">
+        total > 32 && !isLoading && <div className="my-10">
           <Pagination pages={pages} setPage={setPage} page={page} total={total} />
         </div>
       }
-
     </div>
   );
 }
