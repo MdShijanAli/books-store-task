@@ -6,7 +6,7 @@ export default function Book({ book }) {
     <div className="border p-5">
       <div className="flex justify-center h-72">
         <Link to={`/book/${ id }`}>
-          <img className="w-full h-full" src={formats["image/jpeg"]} alt={`${ title } cover`} />
+          <img className="w-full h-full bg-cover" src={formats["image/jpeg"]} alt={ title } />
         </Link>
       </div>
       <div className="mt-3">
