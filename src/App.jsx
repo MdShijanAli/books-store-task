@@ -23,7 +23,7 @@ function App() {
   return (
     <>
       <Router>
-        <Header setSearchData={setSearchData} wishList={wishList} />
+        <Header setSearchData={setSearchData} wishList={wishList} setWishList={setWishList} />
         <Routes>
           <Route path='/' element={<Home searchData={searchData} setWishList={setWishList} wishList={wishList} />} />
           <Route path='/wishlist' element={<WishList searchData={searchData} />} />
