@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import BaseSelect from "./BaseSelect";
 import Book from "./Book";
 import ImageLoader from "./loader/ImageLoader";
 import Pagination from "./Pagination";
@@ -11,19 +12,14 @@ export default function Books({ searchData = "" }) {
   const [page, setPage] = useState(1);
   const [pages, setPages] = useState(1);
   const [bookshelves, setBookshelves] = useState([])
-  const [topic, setTopic] = useState(localStorage.getItem("filter") || "")
+  const [topic, setTopic] = useState(localStorage.getItem("filter") || "");
+
 
   useEffect(() => {
     const pages = total / books?.length;
     setPages(Math.ceil(pages));
 
-    if( topic !== ""){
-      localStorage.setItem("filter", topic);
-    } else{
-      localStorage.removeItem("filter");
-    }
-
-  }, [total, books, topic])
+  }, [total, books])
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -77,33 +73,7 @@ export default function Books({ searchData = "" }) {
   return (
     <div>
       <div className="flex justify-end mb-3">
-      <select
-          name=""
-          id=""
-          className="border px-5 py-2"
-          value={topic}
-          onChange={(e) => {
-            const selectedValue = e.target.value;
-            if (selectedValue === "clear" || selectedValue === "select") {
-              setTopic("");
-            } else {
-              setTopic(selectedValue);
-            }
-          }}
-        >
-          <option value="select" default>Select</option>
-          {
-            isLoading ? <option disabled>Loading...</option> :
-              <>
-                {bookshelves?.map((item, ind) => (
-                  <option key={ind} value={item}>
-                    {item}
-                  </option>
-                ))}
-                <option className="bg-black text-white" value="clear">Clear</option>
-              </>
-          }
-        </select>
+        <BaseSelect bookshelves={bookshelves} setTopic={setTopic} topic={topic} isLoading={isLoading} />
       </div>
       <div className="grid grid-cols-4 gap-5">
         {content}
