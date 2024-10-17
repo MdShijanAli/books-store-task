@@ -100,7 +100,7 @@ export default function WishList({ searchData = "" }) {
       </div>
 
       {
-        total > 32 && !isLoading && <div className="my-10">
+        total > 32 && <div className="my-10">
           <Pagination pages={pages} setPage={setPage} page={page} total={total} />
         </div>
       }

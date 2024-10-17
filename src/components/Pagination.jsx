@@ -1,9 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { formatNumbersWithCommas } from './../utils/formatNumbersWithCommas';
 
 export default function Pagination({ pages = 0, total = 0, limit = 32, setPage, page = 1 }) {
 
-  const [visibleRange, setVisibleRange] = useState([1, Math.min(4, pages)]);
+  const [visibleRange, setVisibleRange] = useState([1, Math.min(4, Math.max(1, pages))]);
+
+  // Update visibleRange when pages change
+  useEffect(() => {
+    if (pages > 0) {
+      setVisibleRange([1, Math.min(4, pages)]);
+    }
+  }, [pages]);
 
   // Handle changing the page
   const handlePageChange = (pageNumber) => {
@@ -13,14 +20,14 @@ export default function Pagination({ pages = 0, total = 0, limit = 32, setPage, 
   // Handle previous button
   const handlePrevious = () => {
     if (page > 1) {
-      setPage(page - 1)
+      setPage(page - 1);
     }
   };
 
   // Handle next button
   const handleNext = () => {
     if (page < pages) {
-      setPage(page + 1)
+      setPage(page + 1);
     }
   };
 
@@ -45,10 +52,8 @@ export default function Pagination({ pages = 0, total = 0, limit = 32, setPage, 
     }
   };
 
-
   // Generate array of page numbers
   const pageNumbers = pages > 0 ? [...Array(pages).keys()].map((n) => n + 1) : [];
-
 
   return (
     <div className='border p-2'>
