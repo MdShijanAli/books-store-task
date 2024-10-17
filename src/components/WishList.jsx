@@ -108,7 +108,7 @@ export default function WishList({ searchData = "" }) {
         >
           <option default>Select</option>
           {
-            isLoading ? <option default>Loading...</option> :
+            isLoading ? <option default disabled>Loading...</option> :
               <>
                 {bookshelves?.map((item, ind) => (
                   <option key={ind} value={item}>
