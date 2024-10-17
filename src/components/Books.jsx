@@ -12,8 +12,6 @@ export default function Books({ searchData = "" }) {
   const [pages, setPages] = useState(1);
   const [bookshelves, setBookshelves] = useState([])
   const [topic, setTopic] = useState('')
-  console.log('Topic', topic);
-  console.log('Pages', pages);
 
   useEffect(() => {
     const pages = total / books?.length;
@@ -25,7 +23,11 @@ export default function Books({ searchData = "" }) {
     const fetchBooks = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get(`https://gutendex.com/books/?sort=ascending&page=${ page }${ searchData ? `&search=${ searchData }` : '' }${ topic ? `&topic=${ topic }` : '' }`);
+        const searchValue = localStorage.getItem("search");
+
+        const searchParam = searchValue && searchValue.trim() !== '' ? `&search=${ searchValue.trim() }` : '';
+
+        const response = await axios.get(`https://gutendex.com/books/?sort=ascending&page=${ page }${ searchData ? `&search=${ searchData }` : searchParam }${ topic ? `&topic=${ topic }` : '' }`);
         console.log('response', response.data.results);
         setTotal(response.data?.count)
         setBooks(response.data.results);
@@ -82,7 +84,7 @@ export default function Books({ searchData = "" }) {
       </div>
 
       {
-        total > 32 && !isLoading && <div className="my-10">
+        total > 32 && <div className="my-10">
           <Pagination pages={pages} setPage={setPage} page={page} total={total} />
         </div>
       }

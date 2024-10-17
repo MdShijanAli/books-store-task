@@ -18,7 +18,6 @@ export default function WishList({ searchData = "" }) {
     return wishList.map(wish => wish.id);
   });
 
-  console.log('Pages', pages);
 
   useEffect(() => {
     const pages = total / books?.length;
@@ -43,9 +42,13 @@ export default function WishList({ searchData = "" }) {
       try {
         setIsLoading(true);
         const idsParam = bookIds.length > 0 ? `&ids=${ bookIds.join(',') }` : '';
-        console.log('idsParam', idsParam);
 
-        const response = await axios.get(`https://gutendex.com/books/?sort=ascending&page=${ page }${ searchData ? `&search=${ searchData }` : '' }${ topic ? `&topic=${ topic }` : '' }${ idsParam && idsParam }`);
+        const searchValue = localStorage.getItem("search");
+
+        const searchParam = searchValue && searchValue.trim() !== '' ? `&search=${ searchValue.trim() }` : '';
+
+
+        const response = await axios.get(`https://gutendex.com/books/?sort=ascending&page=${ page }${ searchData ? `&search=${ searchData }` : searchParam }${ topic ? `&topic=${ topic }` : '' }${ idsParam && idsParam }`);
         console.log('response', response.data.results);
         setTotal(response.data?.count)
         setBooks(response.data.results);

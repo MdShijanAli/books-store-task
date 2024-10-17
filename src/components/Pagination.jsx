@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { formatNumbersWithCommas } from './../utils/formatNumbersWithCommas';
 
 export default function Pagination({ pages = 0, total = 0, limit = 32, setPage, page = 1 }) {
 
@@ -174,7 +175,7 @@ export default function Pagination({ pages = 0, total = 0, limit = 32, setPage, 
 
         </nav>
 
-        <p>Showing {first} to {last} of {total} products</p>
+        <p>Showing {formatNumbersWithCommas(first)} to {formatNumbersWithCommas(last)} of {formatNumbersWithCommas(total)} books</p>
 
       </div>
     </div>
