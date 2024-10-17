@@ -4,7 +4,7 @@ import { useGetValueOrDefault } from './../utils/useGetValueOrDefault';
 import { LoveFillIcon } from "./icons/LoveFillIcon";
 import { LoveIcon } from './icons/LoveIcon';
 
-export default function Book({ book }) {
+export default function Book({ book = {}, setWishList, wishList: bookWishList = 0 }) {
   const { id, title, formats, authors } = book || {};
   const [wish, setWish] = useState(false);
 
@@ -25,9 +25,11 @@ export default function Book({ book }) {
     if (value) {
       const updatedWishList = [...wishList, book];
       localStorage.setItem("wishLists", JSON.stringify(updatedWishList));
+      setWishList(bookWishList+1)
     } else {
       const updatedWishList = wishList.filter((item) => item.id !== book.id);
       localStorage.setItem("wishLists", JSON.stringify(updatedWishList));
+      setWishList(bookWishList-1)
     }
 
     setWish(value);

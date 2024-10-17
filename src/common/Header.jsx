@@ -4,9 +4,8 @@ import logo from '../assets/logo.png';
 import { LoveIcon } from '../components/icons/LoveIcon';
 import Search from '../components/Search';
 
-export default function Header({ setSearchData }) {
+export default function Header({ setSearchData, wishList = 0 }) {
   const [wishLists, setWishLists] = useState([]);
-  const [wishList, setWishList] = useState(0);
   const [isWishListModal, setIsWishListModal] = useState(false);
 
   const navigate = useNavigate();
@@ -19,7 +18,6 @@ export default function Header({ setSearchData }) {
 
     const wishList = getWishList();
     setWishLists(wishList);
-    setWishList(wishList?.length);
   }, []);
 
   const handleShowWishLists = () => {

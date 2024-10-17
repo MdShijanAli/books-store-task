@@ -5,7 +5,7 @@ import Book from "./Book";
 import ImageLoader from "./loader/ImageLoader";
 import Pagination from "./Pagination";
 
-export default function Books({ searchData = "" }) {
+export default function Books({ searchData = "", setWishList, wishList=0 }) {
   const [books, setBooks] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [total, setTotal] = useState(0);
@@ -58,7 +58,7 @@ export default function Books({ searchData = "" }) {
   }
   if (!isLoading && books.length === 0) content = <div>No Product Found</div>
   if (!isLoading && books.length > 0) {
-    content = books.map((book) => <Book key={book.id} book={book} />)
+    content = books.map((book) => <Book key={book.id} book={book} setWishList={setWishList} wishList={wishList} />)
   }
 
   useEffect(() => {
