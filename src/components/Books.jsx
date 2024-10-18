@@ -33,6 +33,7 @@ export default function Books({ searchData = "", setWishList, wishList = 0 }) {
         console.log('response', response.data.results);
         setTotal(response.data?.count)
         setBooks(response.data.results);
+        
         setIsLoading(false)
       } catch (error) {
         console.error('Error fetching books:', error);

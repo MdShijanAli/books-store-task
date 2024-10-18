@@ -3,14 +3,11 @@ import { useEffect, useState } from "react";
 import BaseSelect from "./BaseSelect";
 import Book from "./Book";
 import ImageLoader from "./loader/ImageLoader";
-import Pagination from "./Pagination";
 
 export default function WishList({ searchData = "", setWishList, wishList = 0, wishLists = [] }) {
   const [books, setBooks] = useState([]);
+  const [filterBooks, setFilterBooks] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [total, setTotal] = useState(0);
-  const [page, setPage] = useState(1);
-  const [pages, setPages] = useState(1);
   const [bookshelves, setBookshelves] = useState([])
   const [topic, setTopic] = useState(localStorage.getItem("filter") || "");
   const [bookIds, setBookIds] = useState(() => {
@@ -19,14 +16,15 @@ export default function WishList({ searchData = "", setWishList, wishList = 0, w
     return wishList.map(wish => wish.id);
   });
 
+  // Effect to filter books based on wishLists
   useEffect(() => {
-    setTotal(wishList)
-  }, [wishList, setTotal])
-
-  useEffect(() => {
-    const pages = total > 32 ? total / 32 : 0;
-    setPages(Math.ceil(pages))
-  }, [total, books])
+    if (wishLists.length > 0 && books.length > 0) {
+      const filteredBooks = books.filter(book =>
+        wishLists.some(wish => wish.id === book.id)
+      );
+      setFilterBooks(filteredBooks);
+    }
+  }, [wishLists]);
 
   useEffect(() => {
     const getWishList = () => {
@@ -50,7 +48,7 @@ export default function WishList({ searchData = "", setWishList, wishList = 0, w
 
         const searchParam = searchValue && searchValue.trim() !== '' ? `&search=${ searchValue.trim() }` : '';
 
-        const response = await axios.get(`https://gutendex.com/books/?sort=ascending&page=${ page }${ searchData ? `&search=${ searchData }` : searchParam }${ topic ? `&topic=${ topic }` : '' }${ idsParam && idsParam }`);
+        const response = await axios.get(`https://gutendex.com/books/?sort=ascending${ searchData ? `&search=${ searchData }` : searchParam }${ topic ? `&topic=${ topic }` : '' }${ idsParam && idsParam }`);
         console.log('response', response.data.results);
         setBooks(response.data.results);
         setIsLoading(false)
@@ -61,7 +59,7 @@ export default function WishList({ searchData = "", setWishList, wishList = 0, w
     };
 
     fetchBooks();
-  }, [page, searchData, setBooks, setIsLoading, topic, bookIds]);
+  }, [searchData, setBooks, setIsLoading, topic, bookIds]);
 
   let content;
   if (isLoading) {
@@ -76,9 +74,9 @@ export default function WishList({ searchData = "", setWishList, wishList = 0, w
       <ImageLoader />
     </>
   }
-  if (!isLoading && books.length === 0) content = <div>No Product Found</div>
-  if (!isLoading && books.length > 0) {
-    content = books.map((book) => <Book key={book.id} book={book} setWishList={setWishList} wishList={wishList} />)
+  if (!isLoading && filterBooks.length === 0) content = <div>No Product Found</div>
+  if (!isLoading && filterBooks.length > 0) {
+    content = filterBooks.map((book) => <Book key={book.id} book={book} setWishList={setWishList} wishList={wishList} />)
   }
 
   useEffect(() => {
@@ -98,12 +96,6 @@ export default function WishList({ searchData = "", setWishList, wishList = 0, w
       <div className="grid grid-cols-4 gap-5">
         {content}
       </div>
-
-      {
-        total > 32 && <div className="my-10">
-          <Pagination pages={pages} setPage={setPage} page={page} total={total} />
-        </div>
-      }
 
     </div>
   );
