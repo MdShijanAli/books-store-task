@@ -14,7 +14,7 @@ export default function BaseSelect({ bookshelves = [], setTopic, topic = "", isL
     <select
       name=""
       id=""
-      className="border px-5 py-2"
+      className="border px-5 py-2 w-full sm:w-[300px]"
       value={topic}
       onChange={(e) => {
         const selectedValue = e.target.value;
