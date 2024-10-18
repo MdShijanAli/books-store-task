@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.png';
 import { CloseIcon } from '../components/icons/CloseIcon';
@@ -6,8 +6,7 @@ import { LoveIcon } from '../components/icons/LoveIcon';
 import Search from '../components/Search';
 import './Header.css';
 
-export default function Header({ setSearchData, wishList = 0, setWishList }) {
-  const [wishLists, setWishLists] = useState([]);
+export default function Header({ setSearchData, wishList = 0, setWishList, setWishLists, wishLists =[] }) {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -18,7 +17,7 @@ export default function Header({ setSearchData, wishList = 0, setWishList }) {
 
     const wishList = getWishList();
     setWishLists(wishList);
-  }, []);
+  }, [setWishLists]);
 
   const handleShowBooks = () => {
     navigate('/wishlist');

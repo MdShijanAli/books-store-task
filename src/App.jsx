@@ -11,24 +11,22 @@ function App() {
   const [wishList, setWishList] = useState(0);
   const [wishLists, setWishLists] = useState([]);
 
-  const getWishList = () => {
-    const storedWishList = localStorage.getItem("wishLists");
-    return storedWishList ? JSON.parse(storedWishList) : [];
-  };
-
   useEffect(() => {
-    const wishList = getWishList();
+    const storedWishList = localStorage.getItem("wishLists");
+    const wishList = storedWishList ? JSON.parse(storedWishList) : [];
     setWishList(wishList?.length);
     setWishLists(wishList);
-  }, [getWishList]);
+    console.log('wishLists', wishLists);
+    
+  }, []);
 
   return (
     <>
       <Router>
-        <Header setSearchData={setSearchData} wishList={wishList} setWishList={setWishList} />
+        <Header setSearchData={setSearchData} wishList={wishList} setWishList={setWishList} setWishLists={setWishLists} wishLists={wishLists} />
         <Routes>
-          <Route path='/' element={<Home searchData={searchData} setWishList={setWishList} wishList={wishList} />} />
-          <Route path='/wishlist' element={<WishList searchData={searchData} setWishList={setWishList} wishList={wishList} wishLists={wishLists} />} />
+          <Route path='/' element={<Home searchData={searchData} setWishList={setWishList} setWishLists={setWishLists} wishList={wishList} wishLists={wishLists} />} />
+          <Route path='/wishlist' element={<WishList searchData={searchData} setWishList={setWishList} setWishLists={setWishLists} wishList={wishList} wishLists={wishLists} />} />
           <Route path='/book/:bookId' element={<BookDetails />} />
         </Routes>
       </Router>

@@ -4,9 +4,14 @@ import { useGetValueOrDefault } from './../utils/useGetValueOrDefault';
 import { LoveFillIcon } from "./icons/LoveFillIcon";
 import { LoveIcon } from './icons/LoveIcon';
 
-export default function Book({ book = {}, setWishList, wishList: bookWishList = 0 }) {
+export default function Book({ book = {}, setWishList, setWishLists, wishLists = [], wishList: bookWishList = 0 }) {
   const { id, title, formats, authors } = book || {};
   const [wish, setWish] = useState(false);
+
+  useEffect(()=> {
+     const isWishList = wishLists.some((wish)=> wish.id === id);
+     setWish(isWishList)
+  }, [wishLists])
 
   const getWishList = () => {
     const storedWishList = localStorage.getItem("wishLists");
@@ -26,10 +31,12 @@ export default function Book({ book = {}, setWishList, wishList: bookWishList = 
       const updatedWishList = [...wishList, book];
       localStorage.setItem("wishLists", JSON.stringify(updatedWishList));
       setWishList(bookWishList+1)
+      setWishLists(updatedWishList)
     } else {
       const updatedWishList = wishList.filter((item) => item.id !== book.id);
       localStorage.setItem("wishLists", JSON.stringify(updatedWishList));
       setWishList(bookWishList-1)
+      setWishLists(updatedWishList)
     }
 
     setWish(value);

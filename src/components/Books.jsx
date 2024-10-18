@@ -5,7 +5,7 @@ import Book from "./Book";
 import ImageLoader from "./loader/ImageLoader";
 import Pagination from "./Pagination";
 
-export default function Books({ searchData = "", setWishList, wishList = 0 }) {
+export default function Books({ searchData = "", setWishList, setWishLists, wishLists = [], wishList = 0 }) {
   const [books, setBooks] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [total, setTotal] = useState(0);
@@ -59,7 +59,7 @@ export default function Books({ searchData = "", setWishList, wishList = 0 }) {
   }
   if (!isLoading && books.length === 0) content = <div>No Product Found</div>
   if (!isLoading && books.length > 0) {
-    content = books.map((book) => <Book key={book.id} book={book} setWishList={setWishList} wishList={wishList} />)
+    content = books.map((book) => <Book key={book.id} book={book} setWishList={setWishList} setWishLists={setWishLists} wishList={wishList} wishLists={wishLists} />)
   }
 
   useEffect(() => {
@@ -76,7 +76,7 @@ export default function Books({ searchData = "", setWishList, wishList = 0 }) {
       <div className="flex justify-end mb-3">
         <BaseSelect bookshelves={bookshelves} setTopic={setTopic} topic={topic} isLoading={isLoading} />
       </div>
-      <div className="grid grid-cols-4 gap-5">
+      <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5">
         {content}
       </div>
 
