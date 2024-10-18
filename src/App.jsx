@@ -16,8 +16,6 @@ function App() {
     const wishList = storedWishList ? JSON.parse(storedWishList) : [];
     setWishList(wishList?.length);
     setWishLists(wishList);
-    console.log('wishLists', wishLists);
-    
   }, []);
 
   return (

@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 
-export default function Search({setSearchData}) {
+export default function Search({ setSearchData }) {
   const [inputValue, setInputValue] = useState(localStorage.getItem("search") || "");
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       setSearchData(inputValue)
-      if(inputValue !== ""){
+      if (inputValue !== "") {
         localStorage.setItem("search", inputValue)
-      } else{
+      } else {
         localStorage.removeItem("search");
       }
     }, 1000);
@@ -22,12 +22,12 @@ export default function Search({setSearchData}) {
 
   return (
     <div>
-      <input 
-      placeholder="Search..." 
-      className="border border-black px-5 py-3 focus:border-none w-full sm:w-96" 
-      type="search" 
-      value={inputValue}
-      onChange={handleSearchValue} />
+      <input
+        placeholder="Search..."
+        className="border border-black px-5 py-3 focus:border-none w-full sm:w-96"
+        type="search"
+        value={inputValue}
+        onChange={handleSearchValue} />
     </div>
   );
 }

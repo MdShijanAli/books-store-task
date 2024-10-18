@@ -1,6 +1,6 @@
-export default function ImageLoader(){
-    return (
-      <div class="shadow rounded-md p-4 w-full">
+export default function ImageLoader() {
+  return (
+    <div class="shadow rounded-md p-4 w-full">
       <div class="animate-pulse space-x-4">
         <div class="rounded-xl bg-slate-200 w-full h-40 mb-5"></div>
         <div class="flex-1 space-y-6 py-1">
@@ -15,5 +15,5 @@ export default function ImageLoader(){
         </div>
       </div>
     </div>
-    );
+  );
 }

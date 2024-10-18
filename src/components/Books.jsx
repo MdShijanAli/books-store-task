@@ -14,7 +14,6 @@ export default function Books({ searchData = "", setWishList, setWishLists, wish
   const [bookshelves, setBookshelves] = useState([])
   const [topic, setTopic] = useState(localStorage.getItem("filter") || "");
 
-
   useEffect(() => {
     const pages = total > 32 ? total / 32 : 0;
     setPages(Math.ceil(pages));
@@ -30,13 +29,10 @@ export default function Books({ searchData = "", setWishList, setWishLists, wish
         const searchParam = searchValue && searchValue.trim() !== '' ? `&search=${ searchValue.trim() }` : '';
 
         const response = await axios.get(`https://gutendex.com/books/?sort=ascending&page=${ page }${ searchData ? `&search=${ searchData }` : searchParam }${ topic ? `&topic=${ topic }` : '' }`);
-        console.log('response', response.data.results);
         setTotal(response.data?.count)
         setBooks(response.data.results);
-        
         setIsLoading(false)
       } catch (error) {
-        console.error('Error fetching books:', error);
         setIsLoading(false)
       }
     };
@@ -65,7 +61,6 @@ export default function Books({ searchData = "", setWishList, setWishLists, wish
   useEffect(() => {
     const bookshelvesArray = books.flatMap((book) => book.bookshelves);
 
-    // If you want unique bookshelves (remove duplicates)
     const uniqueBookshelves = [...new Set(bookshelvesArray)];
     setBookshelves(uniqueBookshelves)
   }, [books]);

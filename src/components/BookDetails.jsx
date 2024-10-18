@@ -18,9 +18,7 @@ export default function BookDetails() {
         const response = await axios.get(`https://gutendex.com/books/?ids=${ bookId }`);
         setBookDetails(response.data.results?.[0]);
         setIsLoading(false);
-        console.log('bookDetails', response.data.results?.[0]);
       } catch (error) {
-        console.error('Error fetching books:', error);
         setIsLoading(false);
       }
     };

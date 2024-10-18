@@ -8,9 +8,9 @@ export default function Book({ book = {}, setWishList, setWishLists, wishLists =
   const { id, title, formats, authors } = book || {};
   const [wish, setWish] = useState(false);
 
-  useEffect(()=> {
-     const isWishList = wishLists.some((wish)=> wish.id === id);
-     setWish(isWishList)
+  useEffect(() => {
+    const isWishList = wishLists.some((wish) => wish.id === id);
+    setWish(isWishList)
   }, [wishLists])
 
   const getWishList = () => {
@@ -30,12 +30,12 @@ export default function Book({ book = {}, setWishList, setWishLists, wishLists =
     if (value) {
       const updatedWishList = [...wishList, book];
       localStorage.setItem("wishLists", JSON.stringify(updatedWishList));
-      setWishList(bookWishList+1)
+      setWishList(bookWishList + 1)
       setWishLists(updatedWishList)
     } else {
       const updatedWishList = wishList.filter((item) => item.id !== book.id);
       localStorage.setItem("wishLists", JSON.stringify(updatedWishList));
-      setWishList(bookWishList-1)
+      setWishList(bookWishList - 1)
       setWishLists(updatedWishList)
     }
 
@@ -45,25 +45,25 @@ export default function Book({ book = {}, setWishList, setWishLists, wishLists =
   return (
     <div className="border p-5 relative">
       {
-        wish ? 
-        <LoveFillIcon 
-          onClick={() => handleWish(false)} 
-          className="absolute top-0 right-0 m-1 text-red-600 cursor-pointer" 
-        /> :
-        <LoveIcon 
-          onClick={() => handleWish(true)} 
-          className="absolute top-0 right-0 m-1 cursor-pointer" 
-        />
+        wish ?
+          <LoveFillIcon
+            onClick={() => handleWish(false)}
+            className="absolute top-0 right-0 m-1 text-red-600 cursor-pointer"
+          /> :
+          <LoveIcon
+            onClick={() => handleWish(true)}
+            className="absolute top-0 right-0 m-1 cursor-pointer"
+          />
       }
-      
+
       <div className="flex justify-center h-72">
-        <Link to={`/book/${id}`}>
+        <Link to={`/book/${ id }`}>
           <img className="w-full h-full bg-cover" src={formats["image/jpeg"]} alt={title} />
         </Link>
       </div>
       <div className="mt-3">
         <h2 className="text-sm">ID: <span className="font-semibold">{id}</span></h2>
-        <h1 className="text-md my-1">Title: <Link to={`/book/${id}`}><span className="font-semibold hover:text-blue-950">{useGetValueOrDefault(title.slice(0, 30))}...</span></Link></h1>
+        <h1 className="text-md my-1">Title: <Link to={`/book/${ id }`}><span className="font-semibold hover:text-blue-950">{useGetValueOrDefault(title.slice(0, 30))}...</span></Link></h1>
         <h2 className="text-sm">Author: <span className="font-semibold">{useGetValueOrDefault(authors?.[0]?.name)}</span></h2>
       </div>
     </div>

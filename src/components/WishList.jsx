@@ -15,7 +15,7 @@ export default function WishList({ searchData = "", setWishList, setWishLists, w
     const wishList = storedWishList ? JSON.parse(storedWishList) : [];
     return wishList.map(wish => wish.id);
   });
-  const [booksFetched, setBooksFetched] = useState(false); 
+  const [booksFetched, setBooksFetched] = useState(false);
 
   useEffect(() => {
     const getWishList = () => {
@@ -32,21 +32,18 @@ export default function WishList({ searchData = "", setWishList, setWishLists, w
     const fetchBooks = async () => {
       try {
         setIsLoading(true);
-        const idsParam = bookIds.length > 0 ? `&ids=${bookIds.join(',')}` : '';
+        const idsParam = bookIds.length > 0 ? `&ids=${ bookIds.join(',') }` : '';
 
         const searchValue = localStorage.getItem("search");
-        const searchParam = searchValue && searchValue.trim() !== '' ? `&search=${searchValue.trim()}` : '';
+        const searchParam = searchValue && searchValue.trim() !== '' ? `&search=${ searchValue.trim() }` : '';
 
         const response = await axios.get(
-          `https://gutendex.com/books/?sort=ascending${searchData ? `&search=${searchData}` : searchParam}${topic ? `&topic=${topic}` : ''}${idsParam && idsParam}`
+          `https://gutendex.com/books/?sort=ascending${ searchData ? `&search=${ searchData }` : searchParam }${ topic ? `&topic=${ topic }` : '' }${ idsParam && idsParam }`
         );
-
-        console.log('response', response.data.results);
         setBooks(response.data.results);
         setBooksFetched(true);
         setIsLoading(false);
       } catch (error) {
-        console.error('Error fetching books:', error);
         setIsLoading(false);
       }
     };
