@@ -5,7 +5,7 @@ import Book from "./Book";
 import ImageLoader from "./loader/ImageLoader";
 import Pagination from "./Pagination";
 
-export default function Books({ searchData = "", setWishList, wishList=0 }) {
+export default function Books({ searchData = "", setWishList, wishList = 0 }) {
   const [books, setBooks] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [total, setTotal] = useState(0);
@@ -16,7 +16,7 @@ export default function Books({ searchData = "", setWishList, wishList=0 }) {
 
 
   useEffect(() => {
-    const pages = total / books?.length;
+    const pages = total > 32 ? total / 32 : 0;
     setPages(Math.ceil(pages));
 
   }, [total, books])

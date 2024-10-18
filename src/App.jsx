@@ -9,6 +9,7 @@ import Home from './views/Home'
 function App() {
   const [searchData, setSearchData] = useState('');
   const [wishList, setWishList] = useState(0);
+  const [wishLists, setWishLists] = useState([]);
 
   const getWishList = () => {
     const storedWishList = localStorage.getItem("wishLists");
@@ -18,6 +19,7 @@ function App() {
   useEffect(() => {
     const wishList = getWishList();
     setWishList(wishList?.length);
+    setWishLists(wishList);
   }, [getWishList]);
 
   return (
@@ -26,7 +28,7 @@ function App() {
         <Header setSearchData={setSearchData} wishList={wishList} setWishList={setWishList} />
         <Routes>
           <Route path='/' element={<Home searchData={searchData} setWishList={setWishList} wishList={wishList} />} />
-          <Route path='/wishlist' element={<WishList searchData={searchData} />} />
+          <Route path='/wishlist' element={<WishList searchData={searchData} setWishList={setWishList} wishList={wishList} wishLists={wishLists} />} />
           <Route path='/book/:bookId' element={<BookDetails />} />
         </Routes>
       </Router>

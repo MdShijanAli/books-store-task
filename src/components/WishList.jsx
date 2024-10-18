@@ -5,7 +5,7 @@ import Book from "./Book";
 import ImageLoader from "./loader/ImageLoader";
 import Pagination from "./Pagination";
 
-export default function WishList({ searchData = "" }) {
+export default function WishList({ searchData = "", setWishList, wishList = 0, wishLists = [] }) {
   const [books, setBooks] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [total, setTotal] = useState(0);
@@ -19,11 +19,13 @@ export default function WishList({ searchData = "" }) {
     return wishList.map(wish => wish.id);
   });
 
+  useEffect(() => {
+    setTotal(wishList)
+  }, [wishList, setTotal])
 
   useEffect(() => {
-    const pages = total / books?.length;
+    const pages = total > 32 ? total / 32 : 0;
     setPages(Math.ceil(pages))
-
   }, [total, books])
 
   useEffect(() => {
@@ -48,10 +50,8 @@ export default function WishList({ searchData = "" }) {
 
         const searchParam = searchValue && searchValue.trim() !== '' ? `&search=${ searchValue.trim() }` : '';
 
-
         const response = await axios.get(`https://gutendex.com/books/?sort=ascending&page=${ page }${ searchData ? `&search=${ searchData }` : searchParam }${ topic ? `&topic=${ topic }` : '' }${ idsParam && idsParam }`);
         console.log('response', response.data.results);
-        setTotal(response.data?.count)
         setBooks(response.data.results);
         setIsLoading(false)
       } catch (error) {
@@ -61,7 +61,7 @@ export default function WishList({ searchData = "" }) {
     };
 
     fetchBooks();
-  }, [page, searchData, topic, bookIds]);
+  }, [page, searchData, setBooks, setIsLoading, topic, bookIds]);
 
   let content;
   if (isLoading) {
@@ -78,7 +78,7 @@ export default function WishList({ searchData = "" }) {
   }
   if (!isLoading && books.length === 0) content = <div>No Product Found</div>
   if (!isLoading && books.length > 0) {
-    content = books.map((book) => <Book key={book.id} book={book} />)
+    content = books.map((book) => <Book key={book.id} book={book} setWishList={setWishList} wishList={wishList} />)
   }
 
   useEffect(() => {
