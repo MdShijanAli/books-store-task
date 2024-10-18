@@ -31,8 +31,8 @@ export default function BookDetails() {
   return (
     <div>
       <div className="max-w-7xl mx-auto px-10 py-5">
-        <div className="grid grid-cols-4 gap-5">
-          <div className="col-span-3">
+        <div className="grid grid-cols-1 sm:grid-cols-4 gap-5">
+          <div className="col-span-3 sm:order-1 order-2">
             <div>
               {isLoading ? <DescriptionLoader /> :
                 <div>
@@ -65,11 +65,11 @@ export default function BookDetails() {
             </div>
           </div>
 
-          <div className="col-span-1 sticky top-20">
+          <div className="col-span-1 sm:order-2 order-1">
             {
               isLoading ? <ImageLoader /> :
                 <div>
-                  <div className="h-96">
+                  <div className="w-full lg:h-96 md:h-72">
                     {formats && formats["image/jpeg"] ? (
                       <img
                         className="w-full h-full"
