@@ -1,0 +1,27 @@
+.wishlist-container {
+  position: relative;
+  display: inline-block;
+}
+
+.wishlist-modal {
+  display: block;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 300px;
+  background-color: white;
+  border: 1px solid #e0e0e0;
+  padding: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.wishlist-container:hover .wishlist-modal {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}

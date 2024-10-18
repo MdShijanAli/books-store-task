@@ -1,16 +1,14 @@
-import { useEffect, useRef, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.png';
 import { CloseIcon } from '../components/icons/CloseIcon';
 import { LoveIcon } from '../components/icons/LoveIcon';
 import Search from '../components/Search';
+import './Header.css';
 
 export default function Header({ setSearchData, wishList = 0, setWishList }) {
   const [wishLists, setWishLists] = useState([]);
-  const [isWishListModal, setIsWishListModal] = useState(false);
-  const modalRef = useRef(null);
   const navigate = useNavigate();
-  const location = useLocation();
 
   useEffect(() => {
     const getWishList = () => {
@@ -22,41 +20,16 @@ export default function Header({ setSearchData, wishList = 0, setWishList }) {
     setWishLists(wishList);
   }, []);
 
-  // Handle closing modal when clicking outside of it
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (modalRef.current && !modalRef.current.contains(event.target)) {
-        setIsWishListModal(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [modalRef]);
-
-  // Close modal when route changes
-  useEffect(() => {
-    setIsWishListModal(false);
-  }, [location]);
-
-  const handleShowWishLists = () => {
-    setIsWishListModal(!isWishListModal);
-  };
-
   const handleShowBooks = () => {
     navigate('/wishlist');
   };
 
   const handleRemoveWish = (id) => {
-    console.log('Remove Id', id);
     const updatedWishList = wishLists?.filter((wishList) => wishList.id !== id);
     setWishLists(updatedWishList);
 
     localStorage.setItem("wishLists", JSON.stringify(updatedWishList));
-    setWishList(wishList - 1)
+    setWishList(wishList - 1);
   };
 
   return (
@@ -69,17 +42,17 @@ export default function Header({ setSearchData, wishList = 0, setWishList }) {
           <Search setSearchData={setSearchData} />
         </div>
         <div className='relative'>
-          <button onClick={handleShowWishLists}>
-            <LoveIcon className="w-8 h-8" />
-            {wishList > 0 && (
-              <span className='absolute top-0 right-0 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center'>
-                {wishList}
-              </span>
-            )}
-          </button>
+          <div className='wishlist-container'>
+            <button class="wishlist-button">
+              <LoveIcon className="w-8 h-8" />
+              {wishList > 0 && (
+                <span className='absolute top-0 right-0 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center'>
+                  {wishList}
+                </span>
+              )}
+            </button>
 
-          {isWishListModal && (
-            <div ref={modalRef} className='absolute top-full transition duration-500 ease-in-out right-0 w-[300px] border bg-white p-3 shadow-lg z-10'>
+            <div className='wishlist-modal'>
               {wishLists.length > 0 ? (
                 <>
                   {wishLists.slice(0, 5).map((wish) => (
@@ -106,7 +79,6 @@ export default function Header({ setSearchData, wishList = 0, setWishList }) {
                             <CloseIcon className="text-red-600" />
                           </button>
                         </div>
-
                       </div>
                     </div>
                   ))}
@@ -121,8 +93,7 @@ export default function Header({ setSearchData, wishList = 0, setWishList }) {
                 <div className='text-center text-sm text-gray-500'>No items in wishlist</div>
               )}
             </div>
-          )}
-
+          </div>
         </div>
       </div>
     </div>
